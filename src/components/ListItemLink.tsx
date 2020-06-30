@@ -6,7 +6,7 @@ const ListItemLink = (props: ListItemProps) => {
   const { primary, to } = props;
 
   const CustomLink = useMemo(
-    () => React.forwardRef((linkProps) => <Link to={to} {...linkProps} />),
+    () => React.forwardRef((linkProps, _) => <Link to={to} {...linkProps} />),
     [to]
   );
 

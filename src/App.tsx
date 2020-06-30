@@ -5,16 +5,16 @@ import ListItemLink from "./components/ListItemLink";
 
 const App = () => {
   return (
-    <React.Fragment>
-      <Container>
+    <>
+      <Container maxWidth="sm">
         <List component="nav">
           <ListItemLink primary="Home" to="/" />
-          <ListItemLink primary="Recipe" to="/recipe" />
+          <ListItemLink primary="Recipe" to="/recipes" />
         </List>
       </Container>
       <CssBaseline />
       <ReactRouter />
-    </React.Fragment>
+    </>
   );
 };
 

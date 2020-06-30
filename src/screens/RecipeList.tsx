@@ -1,13 +1,23 @@
 import React from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, List, Typography } from "@material-ui/core";
+import ListItemLink from "../components/ListItemLink";
+import recipes from "../assets/staticRecipes";
 
 const RecipeList = () => {
   return (
     <Container>
-      <Typography variant="h1" component="h2">
-        Recipe List
-      </Typography>
-      <Typography variant="body1">Here is a list of recipes</Typography>
+      <Typography variant="h1">Recipe List</Typography>
+      <List>
+        {recipes.map((r) => {
+          return (
+            <ListItemLink
+              key={r.name}
+              primary={r.name}
+              to={`/recipe/${r.id}`}
+            />
+          );
+        })}
+      </List>
     </Container>
   );
 };
