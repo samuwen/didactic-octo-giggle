@@ -1,11 +1,11 @@
 import React from "react";
 import { ListItem, ListItemText, Paper } from "@material-ui/core";
 
-interface Text {
+interface Element {
   text: string;
 }
 
-const IngredientList = (text: Text) => {
+const IngredientList = (text: Element) => {
   return (
     <Paper>
       <ListItem>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, List, Typography } from "@material-ui/core";
 import recipes from "../assets/staticRecipes";
 import IngredientList from "../components/IngredientList";
+import ChipSection from "../components/ChipSection";
 
 type RouterProps = {
   match: any;
@@ -15,6 +16,9 @@ const RecipeDetail = (props: RouterProps) => {
   return (
     <Container>
       <Typography variant="h1">{recipe.name}</Typography>
+      <ChipSection tags={recipe.tags} />
+      <img src={recipe.image} />
+      <Typography variant="body1">{recipe.description}</Typography>
       <Typography variant="h4">Ingredients</Typography>
       <Container>
         <List>
@@ -22,7 +26,7 @@ const RecipeDetail = (props: RouterProps) => {
             return (
               <IngredientList
                 key={i.name}
-                text={`${i.amount} ${i.unit}s ${i.name}`}
+                text={`${i.amount}${i.unit} ${i.name}`}
               />
             );
           })}

@@ -1,7 +1,11 @@
+import chicken from "./chicken.jpg";
+import pasta from "./pasta.jpg";
+
 const recipes = [
   {
     name: "pasta",
     id: 0,
+    description: "This delicious pasta has no sauce because you are poor",
     directions: [
       "Add salt to water",
       "Boil salted water",
@@ -18,7 +22,7 @@ const recipes = [
       },
       {
         amount: 4,
-        unit: "cup",
+        unit: "cups",
         name: "water",
       },
       {
@@ -27,10 +31,30 @@ const recipes = [
         name: "salt",
       },
     ],
+    image: pasta,
+    tags: [
+      {
+        name: "main",
+        ordinal: 0,
+      },
+      {
+        name: "entree",
+        ordinal: 1,
+      },
+      {
+        name: "grain",
+        ordinal: 2,
+      },
+      {
+        name: "vegetarian",
+        ordinal: 3,
+      },
+    ],
   },
   {
     name: "chicken",
     id: 1,
+    description: "This is a basic chicken breast",
     directions: [
       "Season",
       "Heat pan on medium-high",
@@ -47,9 +71,9 @@ const recipes = [
     ],
     ingredients: [
       {
-        amount: 3,
+        amount: 1,
         unit: "lb",
-        name: "whole chicken",
+        name: "boneless skinless chicken breast",
       },
       {
         amount: 5,
@@ -60,6 +84,21 @@ const recipes = [
         amount: 5,
         unit: "g",
         name: "pepper",
+      },
+    ],
+    image: chicken,
+    tags: [
+      {
+        name: "entree",
+        ordinal: 1,
+      },
+      {
+        name: "main",
+        ordinal: 0,
+      },
+      {
+        name: "poultry",
+        ordinal: 2,
       },
     ],
   },
