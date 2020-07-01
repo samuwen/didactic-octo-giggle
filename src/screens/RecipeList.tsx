@@ -6,7 +6,9 @@ import recipes from "../assets/staticRecipes";
 const RecipeList = () => {
   return (
     <Container>
-      <Typography variant="h1">Recipe List</Typography>
+      <Typography className="primary" variant="h1">
+        Recipe List
+      </Typography>
       <List>
         {recipes.map((r) => {
           return (

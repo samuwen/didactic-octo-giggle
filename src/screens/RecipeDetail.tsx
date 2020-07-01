@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Container,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@material-ui/core";
+import { Container, List, Typography } from "@material-ui/core";
 import recipes from "../assets/staticRecipes";
+import IngredientList from "../components/IngredientList";
 
 type RouterProps = {
   match: any;
@@ -20,15 +15,27 @@ const RecipeDetail = (props: RouterProps) => {
   return (
     <Container>
       <Typography variant="h1">{recipe.name}</Typography>
-      <List>
-        {recipe.directions.map((d: string) => {
-          return (
-            <ListItem>
-              <ListItemText primary={d} />
-            </ListItem>
-          );
-        })}
-      </List>
+      <Typography variant="h4">Ingredients</Typography>
+      <Container>
+        <List>
+          {recipe.ingredients?.map((i) => {
+            return (
+              <IngredientList
+                key={i.name}
+                text={`${i.amount} ${i.unit}s ${i.name}`}
+              />
+            );
+          })}
+        </List>
+      </Container>
+      <Typography variant="h4">Steps</Typography>
+      <Container>
+        <List>
+          {recipe.directions.map((d: string) => {
+            return <IngredientList key={d} text={d} />;
+          })}
+        </List>
+      </Container>
     </Container>
   );
 };
