@@ -1,7 +1,28 @@
 import chicken from "./chicken.jpg";
 import pasta from "./pasta.jpg";
 
-const recipes = [
+export interface Recipe {
+  name: string;
+  id: number;
+  description: string;
+  directions: string[];
+  ingredients: Ingredient[];
+  image: string;
+  tags: Tag[];
+}
+
+export interface Ingredient {
+  amount: number;
+  unit: string;
+  name: string;
+}
+
+export interface Tag {
+  name: string;
+  ordinal: number;
+}
+
+const recipes: Recipe[] = [
   {
     name: "pasta",
     id: 0,

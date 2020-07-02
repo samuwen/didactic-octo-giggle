@@ -1,25 +1,19 @@
 import React from "react";
-import { Container, List, Typography } from "@material-ui/core";
-import ListItemLink from "../components/ListItemLink";
+import { Container, Grid, Typography } from "@material-ui/core";
+import RecipeCard from "../components/RecipeCard";
 import recipes from "../assets/staticRecipes";
 
 const RecipeList = () => {
   return (
     <Container>
       <Typography className="primary" variant="h1">
-        Recipe List
+        Recipes
       </Typography>
-      <List>
-        {recipes.map((r) => {
-          return (
-            <ListItemLink
-              key={r.name}
-              primary={r.name}
-              to={`/recipe/${r.id}`}
-            />
-          );
-        })}
-      </List>
+      <Grid container>
+        {recipes.map((r) => (
+          <RecipeCard recipe={r} />
+        ))}
+      </Grid>
     </Container>
   );
 };

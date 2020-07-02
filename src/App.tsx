@@ -1,6 +1,8 @@
 import React from "react";
 import ReactRouter from "./Routes";
-import { Container, CssBaseline, List } from "@material-ui/core";
+import { Container, CssBaseline, Drawer, List } from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import RestaurantIcon from "@material-ui/icons/Restaurant";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import ListItemLink from "./components/ListItemLink";
 
@@ -10,13 +12,20 @@ const App = () => {
       type: "dark",
     },
   });
+
   return (
     <>
       <Container maxWidth="sm">
-        <List component="nav">
-          <ListItemLink primary="Home" to="/" />
-          <ListItemLink primary="Recipe" to="/recipes" />
-        </List>
+        <Drawer variant="permanent">
+          <List component="nav">
+            <ListItemLink primary="Home" to="/" icon={HomeIcon} />
+            <ListItemLink
+              primary="Recipe"
+              to="/recipes"
+              icon={RestaurantIcon}
+            />
+          </List>
+        </Drawer>
       </Container>
       <ThemeProvider theme={theme}>
         <CssBaseline />
