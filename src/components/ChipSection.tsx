@@ -27,6 +27,7 @@ const ChipSection = (props: { tags: Tag[] }) => {
           return (
             <Chip
               variant="outlined"
+              key={t.name}
               label={t.name}
               onClick={(evt) => handleChipClick(evt, i)}
             />

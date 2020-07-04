@@ -1,5 +1,7 @@
 import React from "react";
 import { Container, List, Typography } from "@material-ui/core";
+import _ from "lodash";
+import { makeStyles } from "@material-ui/core/styles";
 import recipes from "../assets/staticRecipes";
 import IngredientList from "../components/IngredientList";
 import ChipSection from "../components/ChipSection";
@@ -9,15 +11,22 @@ type RouterProps = {
   location: any;
 };
 
+const useStyles = makeStyles({
+  root: {
+    border: "solid",
+  },
+});
+
 const RecipeDetail = (props: RouterProps) => {
   const { recipeId } = props.match.params;
   const recipe = recipes[recipeId];
+  const classes = useStyles();
 
   return (
-    <Container>
-      <Typography variant="h1">{recipe.name}</Typography>
+    <Container className={classes.root}>
+      <Typography variant="h1">{_.startCase(recipe.name)}</Typography>
       <ChipSection tags={recipe.tags} />
-      <img src={recipe.image} />
+      <img alt={recipe.name} src={recipe.image} />
       <Typography variant="body1">{recipe.description}</Typography>
       <Typography variant="h4">Ingredients</Typography>
       <Container>

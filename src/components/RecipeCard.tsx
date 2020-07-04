@@ -6,7 +6,6 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
-import _ from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
 import { Recipe } from "../assets/staticRecipes";
 import { Link } from "react-router-dom";
