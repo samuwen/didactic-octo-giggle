@@ -8,11 +8,14 @@ import {
   TextField,
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
-import EditIcon from "@material-ui/icons/Edit";
 import _ from "lodash";
 import IngredientInput, { Ingredient } from "../components/IngredientInput";
+import EditableField from "../components/EditableField";
 
 const useStyles = makeStyles({
+  headerText: {
+    marginLeft: "10rem",
+  },
   formInput: {
     width: "80%",
     resize: "vertical",
@@ -38,7 +41,7 @@ const useStyles = makeStyles({
 
 const RecipeInput = () => {
   const classes = useStyles();
-  const [recipeName, setRecipeName] = useState("");
+  const [recipeName, setRecipeName] = useState("sdf");
   const [recipeField, setRecipeField] = useState("");
 
   const [ingreds, setIngreds] = useState<Ingredient[]>([
@@ -76,7 +79,9 @@ const RecipeInput = () => {
     <Container>
       <form noValidate autoComplete="off">
         <div>
-          <Typography variant="h1">Input new recipe</Typography>
+          <Typography className={classes.headerText} variant="h1">
+            New recipe
+          </Typography>
           <Container className={classes.ingredientContainer}>
             {!_.isEmpty(ingreds[0]) && (
               <Container>
@@ -96,12 +101,7 @@ const RecipeInput = () => {
                     </IconButton>
                   </Container>
                 ) : (
-                  <Container>
-                    <Typography variant="h4">{recipeName}</Typography>
-                    <IconButton onClick={onEditClick}>
-                      <EditIcon />
-                    </IconButton>
-                  </Container>
+                  <EditableField fieldText={recipeName} onEdit={onEditClick} />
                 )}
                 <Typography variant="body1">Ingredients</Typography>
                 {ingreds.map((i) => {

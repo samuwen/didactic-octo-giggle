@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     color: "#ff0000",
   },
   mainContainer: {
+    display: "flex",
     marginLeft: "10rem",
   },
   viewPort: {
