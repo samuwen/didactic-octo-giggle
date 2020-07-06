@@ -2,24 +2,38 @@ import React, { useState } from "react";
 import { IconButton, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
+import SaveIcon from "@material-ui/icons/Save";
 import _ from "lodash";
 
 const useStyles = makeStyles({
-  ingredientContainer: {
-    width: "88%",
+  addIngredientContainer: {
+    width: "100%",
     resize: "vertical",
-    padding: "1rem",
+    marginLeft: ".9rem",
   },
-  amtInput: {
+  editIngredientContainer: {
+    width: "100%",
+    resize: "vertical",
+  },
+  addAmtInput: {
     width: "10%",
     resize: "vertical",
     marginRight: "1rem",
   },
-  ingInput: {
+  editAmtInput: {
+    width: "10.5%",
+    resize: "vertical",
+    marginRight: "1rem",
+  },
+  addIngInput: {
     width: "60%",
     resize: "vertical",
     marginRight: "1rem",
   },
+  editIngInput: {
+    width: "63%",
+  },
+  saveButton: {},
   addButton: {},
 });
 
@@ -31,47 +45,64 @@ interface IngredientField {
   className: any;
 }
 
-export interface Ingredient {
-  amount: string | number;
-  unit: string;
-  name: string;
+interface MyProps {
+  handleClick(data: Ingredient): void;
+  data?: Ingredient;
 }
 
-const IngredientInput = (props: { handleClick(data: Ingredient): void }) => {
+export interface Ingredient {
+  amount: string;
+  unit: string;
+  name: string;
+  isBeingEdited: boolean;
+}
+
+const IngredientInput = (props: MyProps) => {
   const classes = useStyles();
-  const { handleClick } = props;
+  const { data, handleClick } = props;
+  const ingredient =
+    data === undefined
+      ? { amount: "", unit: "", name: "", isBeingEdited: false }
+      : data;
   const fieldDefault = [
     {
       name: "amount",
-      value: "",
+      value: ingredient.amount,
       helperText: "Amount",
       id: "amount-input",
-      className: classes.amtInput,
+      className: ingredient.isBeingEdited
+        ? classes.editAmtInput
+        : classes.addAmtInput,
     },
     {
       name: "unit",
-      value: "",
+      value: ingredient.unit,
       helperText: "Unit",
       id: "unit-input",
-      className: classes.amtInput,
+      className: ingredient.isBeingEdited
+        ? classes.editAmtInput
+        : classes.addAmtInput,
     },
     {
       name: "name",
-      value: "",
+      value: ingredient.name,
       helperText: "Ingredient name",
       id: "name-input",
-      className: classes.ingInput,
+      className: ingredient.isBeingEdited
+        ? classes.editIngInput
+        : classes.addIngInput,
     },
   ];
   const [fields, setFields] = useState<IngredientField[]>(fieldDefault);
 
   const addIngredient = () => {
-    const ingredient = {
+    const newIngredient = {
       amount: fields[0].value.trim(),
       unit: fields[1].value.trim(),
       name: fields[2].value.trim(),
+      isBeingEdited: false,
     };
-    handleClick(ingredient);
+    handleClick(newIngredient);
     setFields(fieldDefault);
   };
 
@@ -86,7 +117,22 @@ const IngredientInput = (props: { handleClick(data: Ingredient): void }) => {
   };
 
   return (
-    <div className={classes.ingredientContainer}>
+    <div
+      className={
+        ingredient.isBeingEdited
+          ? classes.editIngredientContainer
+          : classes.addIngredientContainer
+      }
+    >
+      {!ingredient.isBeingEdited ? (
+        <IconButton className={classes.addButton} onClick={addIngredient}>
+          <AddIcon />
+        </IconButton>
+      ) : (
+        <IconButton className={classes.saveButton} onClick={addIngredient}>
+          <SaveIcon />
+        </IconButton>
+      )}
       {fields.map((field) => {
         return (
           <TextField
@@ -100,9 +146,6 @@ const IngredientInput = (props: { handleClick(data: Ingredient): void }) => {
           />
         );
       })}
-      <IconButton className={classes.addButton} onClick={addIngredient}>
-        <AddIcon />
-      </IconButton>
     </div>
   );
 };

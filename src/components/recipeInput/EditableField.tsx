@@ -28,7 +28,7 @@ const EditableField = (props: { fieldText: string; onEdit: () => void }) => {
   return (
     <div className={classes.root}>
       <div className={classes.text}>
-        <Typography variant="h4">{fieldText}</Typography>
+        <Typography variant="h5">{fieldText}</Typography>
       </div>
       <IconButton className={classes.icon} onClick={onEdit}>
         <EditIcon />
