@@ -5,11 +5,9 @@ import {
   Container,
   IconButton,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Typography,
 } from "@material-ui/core";
-import _ from "lodash";
 import EditIcon from "@material-ui/icons/Edit";
 import IngredientInput, {
   Ingredient,
@@ -30,6 +28,7 @@ const useStyles = makeStyles({
   },
   subHeaderText: {
     textAlign: "center",
+    marginTop: "1.5rem",
   },
   ingredientList: {
     width: "80%",
@@ -53,12 +52,15 @@ const RecipeInput = () => {
   const [recipeName, setRecipeName] = useState("");
 
   const [ingreds, setIngreds] = useState<Ingredient[]>([]);
-  const [steps, setSteps] = useState<Step[]>([
-    { text: "do stuff", isBeingEdited: false },
-  ]);
+  const [steps, setSteps] = useState<Step[]>([]);
 
   const handleSubmitClick = () => {
-    console.log("yeah boi");
+    const obj = JSON.stringify({
+      name: recipeName,
+      ingredients: ingreds,
+      steps,
+    });
+    console.log(obj);
   };
 
   const addIngredient = (ingredient: Ingredient) => {
@@ -111,7 +113,6 @@ const RecipeInput = () => {
   const onSaveStepClick = (index: number, data: Step) => {
     const oldSteps = [...steps];
     oldSteps[index] = data;
-    console.log("firing");
     setSteps(oldSteps);
   };
 
@@ -136,33 +137,33 @@ const RecipeInput = () => {
             ) : (
               <EditableField fieldText={recipeName} onEdit={onEditClick} />
             )}
-            <Container>
-              <Container className={classes.ingredientList}>
-                <Typography className={classes.subHeaderText} variant="h6">
-                  Ingredients
-                </Typography>
-                {ingreds.map((ingred, i) => {
-                  return ingred.isBeingEdited ? (
-                    <ListItem>
+            <Container className={classes.ingredientList}>
+              <Typography className={classes.subHeaderText} variant="h5">
+                Ingredients
+              </Typography>
+              {ingreds.map((ingred, i) => {
+                return (
+                  <ListItem key={`${ingred.name} ${i}`}>
+                    {ingred.isBeingEdited ? (
                       <IngredientInput
                         data={ingred}
                         handleClick={(data) => onSaveIngredientClick(i, data)}
                       />
-                    </ListItem>
-                  ) : (
-                    <ListItem>
-                      <IconButton onClick={() => onEditIngredientClick(i)}>
-                        <EditIcon />
-                      </IconButton>
-                      <ListItemText>{`${ingred.amount} ${ingred.unit} ${ingred.name}`}</ListItemText>
-                    </ListItem>
-                  );
-                })}
-                <IngredientInput handleClick={addIngredient} />
-              </Container>
+                    ) : (
+                      <>
+                        <IconButton onClick={() => onEditIngredientClick(i)}>
+                          <EditIcon />
+                        </IconButton>
+                        <ListItemText>{`${ingred.amount} ${ingred.unit} ${ingred.name}`}</ListItemText>
+                      </>
+                    )}
+                  </ListItem>
+                );
+              })}
+              <IngredientInput handleClick={addIngredient} />
             </Container>
             <Container className={classes.ingredientList}>
-              <Typography className={classes.subHeaderText} variant="h6">
+              <Typography className={classes.subHeaderText} variant="h5">
                 Steps
               </Typography>
               {steps.map((step, i) => {
@@ -174,12 +175,12 @@ const RecipeInput = () => {
                         handleClick={(data) => onSaveStepClick(i, data)}
                       />
                     ) : (
-                      <div>
+                      <>
                         <IconButton onClick={() => onEditStepClick(i)}>
                           <EditIcon />
                         </IconButton>
                         <ListItemText>{step.text}</ListItemText>
-                      </div>
+                      </>
                     )}
                   </ListItem>
                 );

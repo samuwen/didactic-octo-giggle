@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, IconButton, Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -27,12 +27,12 @@ const EditableField = (props: { fieldText: string; onEdit: () => void }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.text}>
-        <Typography variant="h5">{fieldText}</Typography>
-      </div>
       <IconButton className={classes.icon} onClick={onEdit}>
         <EditIcon />
       </IconButton>
+      <div className={classes.text}>
+        <Typography variant="h5">{fieldText}</Typography>
+      </div>
     </div>
   );
 };

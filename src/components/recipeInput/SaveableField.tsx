@@ -39,6 +39,9 @@ const SaveableField = (props: {
 
   return (
     <Container className={classes.container}>
+      <IconButton className={classes.icon} onClick={onClick}>
+        <SaveIcon />
+      </IconButton>
       <TextField
         className={classes.formInput}
         error={false}
@@ -50,9 +53,6 @@ const SaveableField = (props: {
         size="medium"
         autoFocus
       />
-      <IconButton className={classes.icon} onClick={onClick}>
-        <SaveIcon />
-      </IconButton>
     </Container>
   );
 };

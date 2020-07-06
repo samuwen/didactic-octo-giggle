@@ -6,12 +6,17 @@ import SaveIcon from "@material-ui/icons/Save";
 import _ from "lodash";
 
 const useStyles = makeStyles({
-  ingredientContainer: {
+  addIngredientContainer: {
+    width: "100%",
+    resize: "vertical",
+    marginLeft: ".9rem",
+  },
+  saveIngredientContainer: {
     width: "100%",
     resize: "vertical",
   },
   ingInput: {
-    width: "60%",
+    width: "86%",
     resize: "vertical",
     marginRight: "1rem",
   },
@@ -44,7 +49,7 @@ const StepInput = (props: MyProps) => {
     {
       name: "text",
       value: step.text,
-      helperText: "Add new step",
+      helperText: "Text for this step",
       id: "text-input",
       className: classes.ingInput,
     },
@@ -71,7 +76,13 @@ const StepInput = (props: MyProps) => {
   };
 
   return (
-    <div className={classes.ingredientContainer}>
+    <div
+      className={
+        step.isBeingEdited
+          ? classes.saveIngredientContainer
+          : classes.addIngredientContainer
+      }
+    >
       <IconButton onClick={addStep}>
         {step.isBeingEdited ? <SaveIcon /> : <AddIcon />}
       </IconButton>
