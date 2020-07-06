@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IconButton, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
+import SaveIcon from "@material-ui/icons/Save";
 import _ from "lodash";
 
 const useStyles = makeStyles({
@@ -25,17 +26,24 @@ interface StepField {
   className: any;
 }
 
-export interface Step {
-  text: string;
+interface MyProps {
+  handleClick(data: Step): void;
+  data?: Step;
 }
 
-const StepInput = (props: { handleClick(data: Step): void }) => {
+export interface Step {
+  text: string;
+  isBeingEdited: boolean;
+}
+
+const StepInput = (props: MyProps) => {
   const classes = useStyles();
-  const { handleClick } = props;
+  const { handleClick, data } = props;
+  const step = data === undefined ? { text: "", isBeingEdited: false } : data;
   const fieldDefault = [
     {
       name: "text",
-      value: "",
+      value: step.text,
       helperText: "Add new step",
       id: "text-input",
       className: classes.ingInput,
@@ -46,6 +54,7 @@ const StepInput = (props: { handleClick(data: Step): void }) => {
   const addStep = () => {
     const step = {
       text: fields[0].value.trim(),
+      isBeingEdited: false,
     };
     handleClick(step);
     setFields(fieldDefault);
@@ -63,6 +72,9 @@ const StepInput = (props: { handleClick(data: Step): void }) => {
 
   return (
     <div className={classes.ingredientContainer}>
+      <IconButton onClick={addStep}>
+        {step.isBeingEdited ? <SaveIcon /> : <AddIcon />}
+      </IconButton>
       {fields.map((field) => {
         return (
           <TextField
@@ -76,9 +88,6 @@ const StepInput = (props: { handleClick(data: Step): void }) => {
           />
         );
       })}
-      <IconButton className={classes.addButton} onClick={addStep}>
-        <AddIcon />
-      </IconButton>
     </div>
   );
 };

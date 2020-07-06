@@ -11,18 +11,16 @@ import {
 } from "@material-ui/core";
 import _ from "lodash";
 import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
 import IngredientInput, {
   Ingredient,
 } from "../components/recipeInput/IngredientInput";
 import StepInput, { Step } from "../components/recipeInput/StepInput";
 import EditableField from "../components/recipeInput/EditableField";
 import SaveableField from "../components/recipeInput/SaveableField";
-import AddContentSection from "../components/recipeInput/AddContentSection";
 
 const useStyles = makeStyles({
   headerText: {
-    marginLeft: "10rem",
+    textAlign: "center",
   },
   dataContainer: {
     border: "1px solid",
@@ -55,7 +53,9 @@ const RecipeInput = () => {
   const [recipeName, setRecipeName] = useState("");
 
   const [ingreds, setIngreds] = useState<Ingredient[]>([]);
-  const [steps, setSteps] = useState<Step[]>([{ text: "do stuff" }]);
+  const [steps, setSteps] = useState<Step[]>([
+    { text: "do stuff", isBeingEdited: false },
+  ]);
 
   const handleSubmitClick = () => {
     console.log("yeah boi");
@@ -94,10 +94,25 @@ const RecipeInput = () => {
     setIngredBool(index, true);
   };
 
+  const onEditStepClick = (index: number) => {
+    const oldSteps = [...steps];
+    const step = oldSteps[index];
+    step.isBeingEdited = true;
+    oldSteps[index] = step;
+    setSteps(oldSteps);
+  };
+
   const onSaveIngredientClick = (index: number, data: Ingredient) => {
     const oldIngreds = [...ingreds];
     oldIngreds[index] = data;
     setIngreds(oldIngreds);
+  };
+
+  const onSaveStepClick = (index: number, data: Step) => {
+    const oldSteps = [...steps];
+    oldSteps[index] = data;
+    console.log("firing");
+    setSteps(oldSteps);
   };
 
   return (
@@ -146,17 +161,26 @@ const RecipeInput = () => {
                 <IngredientInput handleClick={addIngredient} />
               </Container>
             </Container>
-            <Container>
+            <Container className={classes.ingredientList}>
               <Typography className={classes.subHeaderText} variant="h6">
                 Steps
               </Typography>
-              {steps.map((step) => {
+              {steps.map((step, i) => {
                 return (
                   <ListItem>
-                    <ListItemIcon>
-                      <EditIcon />
-                    </ListItemIcon>
-                    <ListItemText>{step.text}</ListItemText>
+                    {step.isBeingEdited ? (
+                      <StepInput
+                        data={step}
+                        handleClick={(data) => onSaveStepClick(i, data)}
+                      />
+                    ) : (
+                      <div>
+                        <IconButton onClick={() => onEditStepClick(i)}>
+                          <EditIcon />
+                        </IconButton>
+                        <ListItemText>{step.text}</ListItemText>
+                      </div>
+                    )}
                   </ListItem>
                 );
               })}

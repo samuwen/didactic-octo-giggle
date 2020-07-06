@@ -33,8 +33,6 @@ const useStyles = makeStyles({
   editIngInput: {
     width: "63%",
   },
-  saveButton: {},
-  addButton: {},
 });
 
 interface IngredientField {
@@ -124,15 +122,9 @@ const IngredientInput = (props: MyProps) => {
           : classes.addIngredientContainer
       }
     >
-      {!ingredient.isBeingEdited ? (
-        <IconButton className={classes.addButton} onClick={addIngredient}>
-          <AddIcon />
-        </IconButton>
-      ) : (
-        <IconButton className={classes.saveButton} onClick={addIngredient}>
-          <SaveIcon />
-        </IconButton>
-      )}
+      <IconButton onClick={addIngredient}>
+        {!ingredient.isBeingEdited ? <AddIcon /> : <SaveIcon />}
+      </IconButton>
       {fields.map((field) => {
         return (
           <TextField
