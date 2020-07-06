@@ -55,10 +55,16 @@ const RecipeInput = () => {
   const [steps, setSteps] = useState<Step[]>([]);
 
   const handleSubmitClick = () => {
+    const ingredients = ingreds.map((i) => {
+      return { amount: i.amount, unit: i.unit, name: i.name };
+    });
+    const stps = steps.map((s) => {
+      return { text: s.text };
+    });
     const obj = JSON.stringify({
       name: recipeName,
-      ingredients: ingreds,
-      steps,
+      ingredients,
+      stps,
     });
     console.log(obj);
   };
