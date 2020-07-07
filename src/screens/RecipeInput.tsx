@@ -1,20 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  Container,
-  IconButton,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import IngredientInput, {
-  Ingredient,
-} from "../components/recipeInput/IngredientInput";
-import StepInput, { Step } from "../components/recipeInput/StepInput";
+import { Button, Container, Typography } from "@material-ui/core";
+import { Ingredient } from "../components/recipeInput/IngredientInput";
+import { Step } from "../components/recipeInput/StepInput";
 import EditableField from "../components/recipeInput/EditableField";
 import SaveableField from "../components/recipeInput/SaveableField";
+import AddIngredientSection from "../components/recipeInput/AddIngredientSection";
+import AddStepSection from "../components/recipeInput/AddStepSection";
+import AddTagSection, { Tag } from "../components/recipeInput/AddTagSection";
 
 const useStyles = makeStyles({
   headerText: {
@@ -39,12 +32,14 @@ const useStyles = makeStyles({
     marginRight: "1rem",
   },
   submitButton: {
-    width: "60%",
+    width: "30%",
     marginTop: "1rem",
     marginLeft: "10rem",
     marginRight: "auto",
   },
 });
+
+// next add tags section?
 
 const RecipeInput = () => {
   const classes = useStyles();
@@ -53,6 +48,7 @@ const RecipeInput = () => {
 
   const [ingreds, setIngreds] = useState<Ingredient[]>([]);
   const [steps, setSteps] = useState<Step[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const handleSubmitClick = () => {
     const ingredients = ingreds.map((i) => {
@@ -79,6 +75,12 @@ const RecipeInput = () => {
     const oldSteps = [...steps];
     oldSteps.push(step);
     setSteps(oldSteps);
+  };
+
+  const addTag = (tag: Tag) => {
+    const oldTags = [...tags];
+    oldTags.push(tag);
+    setTags(oldTags);
   };
 
   const onSaveClick = (value: string) => {
@@ -122,6 +124,12 @@ const RecipeInput = () => {
     setSteps(oldSteps);
   };
 
+  const onDeleteTagClick = (index: number) => {
+    const oldTags = [...tags];
+    oldTags.splice(index, 1);
+    setTags(oldTags);
+  };
+
   return (
     <Container>
       <form noValidate autoComplete="off">
@@ -143,64 +151,32 @@ const RecipeInput = () => {
             ) : (
               <EditableField fieldText={recipeName} onEdit={onEditClick} />
             )}
-            <Container className={classes.ingredientList}>
-              <Typography className={classes.subHeaderText} variant="h5">
-                Ingredients
-              </Typography>
-              {ingreds.map((ingred, i) => {
-                return (
-                  <ListItem key={`${ingred.name} ${i}`}>
-                    {ingred.isBeingEdited ? (
-                      <IngredientInput
-                        data={ingred}
-                        handleClick={(data) => onSaveIngredientClick(i, data)}
-                      />
-                    ) : (
-                      <>
-                        <IconButton onClick={() => onEditIngredientClick(i)}>
-                          <EditIcon />
-                        </IconButton>
-                        <ListItemText>{`${ingred.amount} ${ingred.unit} ${ingred.name}`}</ListItemText>
-                      </>
-                    )}
-                  </ListItem>
-                );
-              })}
-              <IngredientInput handleClick={addIngredient} />
-            </Container>
-            <Container className={classes.ingredientList}>
-              <Typography className={classes.subHeaderText} variant="h5">
-                Steps
-              </Typography>
-              {steps.map((step, i) => {
-                return (
-                  <ListItem>
-                    {step.isBeingEdited ? (
-                      <StepInput
-                        data={step}
-                        handleClick={(data) => onSaveStepClick(i, data)}
-                      />
-                    ) : (
-                      <>
-                        <IconButton onClick={() => onEditStepClick(i)}>
-                          <EditIcon />
-                        </IconButton>
-                        <ListItemText>{step.text}</ListItemText>
-                      </>
-                    )}
-                  </ListItem>
-                );
-              })}
-              <StepInput handleClick={addStep} />
-            </Container>
+            <AddIngredientSection
+              ingreds={ingreds}
+              onSaveClick={onSaveIngredientClick}
+              onEditClick={onEditIngredientClick}
+              onAddClick={addIngredient}
+            />
+            <AddStepSection
+              steps={steps}
+              onSaveClick={onSaveStepClick}
+              onEditClick={onEditStepClick}
+              onAddClick={addStep}
+            />
+            <AddTagSection
+              tags={tags}
+              onAddClick={addTag}
+              onDeleteClick={onDeleteTagClick}
+            />
           </Container>
         </Container>
         <Button
           className={classes.submitButton}
           onClick={handleSubmitClick}
+          color="primary"
           variant="contained"
         >
-          ENGAGE
+          Create new recipe
         </Button>
       </form>
     </Container>
