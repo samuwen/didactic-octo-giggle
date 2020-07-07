@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button, Container, TextField, Typography } from "@material-ui/core";
 import { Ingredient } from "../components/recipeInput/IngredientInput";
 import { Step } from "../components/recipeInput/StepInput";
-import EditableField from "../components/recipeInput/EditableField";
-import SaveableField from "../components/recipeInput/SaveableField";
 import AddIngredientSection from "../components/recipeInput/AddIngredientSection";
 import AddStepSection from "../components/recipeInput/AddStepSection";
 import AddTagSection, { Tag } from "../components/recipeInput/AddTagSection";
@@ -12,6 +10,9 @@ import AddTagSection, { Tag } from "../components/recipeInput/AddTagSection";
 const useStyles = makeStyles({
   headerText: {
     textAlign: "center",
+  },
+  nameContainer: {
+    width: "80%",
   },
   dataContainer: {
     border: "1px solid",
@@ -37,15 +38,18 @@ const useStyles = makeStyles({
     marginLeft: "10rem",
     marginRight: "auto",
   },
+  formInput: {
+    width: "60%",
+    resize: "vertical",
+    padding: "1rem",
+    marginLeft: "3rem",
+  },
 });
-
-// next add tags section?
 
 const RecipeInput = () => {
   const classes = useStyles();
-  const [isEditingRecipe, setIsEditingRecipe] = useState(true);
   const [recipeName, setRecipeName] = useState("");
-
+  const [recipeDescription, setRecipeDescription] = useState("");
   const [ingreds, setIngreds] = useState<Ingredient[]>([]);
   const [steps, setSteps] = useState<Step[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -81,15 +85,6 @@ const RecipeInput = () => {
     const oldTags = [...tags];
     oldTags.push(tag);
     setTags(oldTags);
-  };
-
-  const onSaveClick = (value: string) => {
-    setRecipeName(value);
-    setIsEditingRecipe(false);
-  };
-
-  const onEditClick = () => {
-    setIsEditingRecipe(true);
   };
 
   const setIngredBool = (index: number, b: boolean) => {
@@ -138,19 +133,39 @@ const RecipeInput = () => {
         </Typography>
         <Container className={classes.dataContainer}>
           <Container>
-            {isEditingRecipe ? (
-              <SaveableField
-                onSaveClick={onSaveClick}
-                fieldData={{
-                  id: "recipe-name",
-                  helper: "Recipe name",
-                  name: "recipe-name",
+            <Container className={classes.nameContainer}>
+              <TextField
+                className={classes.formInput}
+                error={false}
+                id="recipe-name"
+                helperText="Recipe name"
+                placeholder="Add a recipe name"
+                name="recipe-name"
+                onChange={(evt: any) => {
+                  setRecipeName(evt.target.value);
                 }}
-                initialValue={recipeName}
+                value={recipeName}
+                required
+                size="medium"
+                multiline={false}
+                autoFocus
               />
-            ) : (
-              <EditableField fieldText={recipeName} onEdit={onEditClick} />
-            )}
+              <TextField
+                className={classes.formInput}
+                error={false}
+                id="recipe-description"
+                helperText="Recipe description"
+                placeholder="Add a recipe description"
+                name="recipe-description"
+                onChange={(evt: any) => {
+                  setRecipeDescription(evt.target.value);
+                }}
+                value={recipeDescription}
+                size="medium"
+                multiline={false}
+                autoFocus
+              />
+            </Container>
             <AddIngredientSection
               ingreds={ingreds}
               onSaveClick={onSaveIngredientClick}
