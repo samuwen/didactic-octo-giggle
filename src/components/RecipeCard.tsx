@@ -9,6 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Recipe } from "../assets/staticRecipes";
 import { Link } from "react-router-dom";
+import grumpster from "../assets/grumpster.jpg";
 
 const useStyles = makeStyles({
   card: {
@@ -30,7 +31,7 @@ const RecipeCard = (props: { recipe: Recipe }) => {
         <CardMedia
           className={classes.cardImage}
           component="img"
-          image={recipe.image}
+          image={recipe.image === undefined ? grumpster : recipe.image}
           title={recipe.name}
         />
         <CardContent>

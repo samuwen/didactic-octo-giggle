@@ -13,6 +13,7 @@ import { Step } from "../components/recipeInput/StepInput";
 import AddIngredientSection from "../components/recipeInput/AddIngredientSection";
 import AddStepSection from "../components/recipeInput/AddStepSection";
 import AddTagSection, { Tag } from "../components/recipeInput/AddTagSection";
+import staticRecipes from "../assets/staticRecipes";
 
 const useStyles = makeStyles({
   headerText: {
@@ -73,17 +74,26 @@ const RecipeInput = () => {
 
   const handleSubmitClick = () => {
     const ingredients = ingreds.map((i) => {
-      return { amount: i.amount, unit: i.unit, name: i.name };
+      return {
+        amount: parseInt(i.amount, 10),
+        unit: i.unit,
+        name: i.name,
+      };
     });
-    const stps = steps.map((s) => {
-      return { text: s.text };
+    const finalSteps = steps.map((s) => s.text);
+    const finalTags = tags.map((t, i) => {
+      return { name: t.text, ordinal: i };
     });
-    const obj = JSON.stringify({
+    const obj = {
       name: recipeName,
+      id: 15,
+      description: recipeDescription,
       ingredients,
-      stps,
-    });
-    console.log(obj);
+      directions: finalSteps,
+      image: images[0],
+      tags: finalTags,
+    };
+    staticRecipes.push(obj);
   };
 
   const addIngredient = (ingredient: Ingredient) => {
@@ -151,7 +161,6 @@ const RecipeInput = () => {
     setImages(urls);
   };
 
-  console.log(recipeName.length);
   return (
     <Container>
       <form noValidate autoComplete="off">
@@ -220,7 +229,7 @@ const RecipeInput = () => {
               </label>
               {images.length > 0 &&
                 images.map((i) => (
-                  <img className={classes.images} src={i} alt="" />
+                  <img key={i} className={classes.images} src={i} alt="" />
                 ))}
             </Container>
             <AddIngredientSection

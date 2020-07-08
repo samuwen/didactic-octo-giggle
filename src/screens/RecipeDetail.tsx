@@ -19,7 +19,11 @@ const useStyles = makeStyles({
 
 const RecipeDetail = (props: RouterProps) => {
   const { recipeId } = props.match.params;
-  const recipe = recipes[recipeId];
+  console.log(recipeId);
+  let recipe = recipes.find((r) => parseInt(recipeId, 10) === r.id);
+  if (recipe === undefined) {
+    recipe = recipes[0];
+  }
   const classes = useStyles();
 
   return (

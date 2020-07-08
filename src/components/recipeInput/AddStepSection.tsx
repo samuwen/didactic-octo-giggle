@@ -38,7 +38,7 @@ const AddStepSection = (props: MyProps) => {
       </Typography>
       {steps.map((step, i) => {
         return (
-          <ListItem>
+          <ListItem key={`${step.text}_${i}`}>
             {step.isBeingEdited ? (
               <StepInput
                 data={step}
