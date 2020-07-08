@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Container, TextField, Typography } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  IconButton,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import CameraEnhanceIcon from "@material-ui/icons/CameraEnhance";
 import { Ingredient } from "../components/recipeInput/IngredientInput";
 import { Step } from "../components/recipeInput/StepInput";
 import AddIngredientSection from "../components/recipeInput/AddIngredientSection";
@@ -11,26 +18,32 @@ const useStyles = makeStyles({
   headerText: {
     textAlign: "center",
   },
+  imageInput: {
+    display: "none",
+  },
   nameContainer: {
     width: "80%",
+  },
+  images: {
+    maxWidth: "50px",
+    maxHeight: "50px",
+  },
+  imagesSection: {
+    border: "solid 1px",
+    borderColor: "#00bb00",
+    maxWidth: "80%",
+  },
+  imageHeader: {
+    textAlign: "center",
+  },
+  imageIcon: {
+    marginLeft: "1rem",
   },
   dataContainer: {
     border: "1px solid",
     borderRadius: "1px",
     maxWidth: "100%",
     justifyContent: "center",
-  },
-  subHeaderText: {
-    textAlign: "center",
-    marginTop: "1.5rem",
-  },
-  ingredientList: {
-    width: "80%",
-  },
-  stepInput: {
-    width: "60%",
-    resize: "vertical",
-    marginRight: "1rem",
   },
   submitButton: {
     width: "30%",
@@ -53,6 +66,10 @@ const RecipeInput = () => {
   const [ingreds, setIngreds] = useState<Ingredient[]>([]);
   const [steps, setSteps] = useState<Step[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+  const [images, setImages] = useState<any[]>([]);
+  const [titleVariant, setTitleVariant] = useState<
+    "h1" | "h2" | "h3" | "h4" | "h5"
+  >("h1");
 
   const handleSubmitClick = () => {
     const ingredients = ingreds.map((i) => {
@@ -125,11 +142,21 @@ const RecipeInput = () => {
     setTags(oldTags);
   };
 
+  const onFileChange = (evt: any) => {
+    const files = evt.target.files;
+    let urls = [];
+    for (let i = 0; i < files.length; i += 1) {
+      urls.push(URL.createObjectURL(files[i]));
+    }
+    setImages(urls);
+  };
+
+  console.log(recipeName.length);
   return (
     <Container>
       <form noValidate autoComplete="off">
-        <Typography className={classes.headerText} variant="h1">
-          New recipe
+        <Typography className={classes.headerText} variant={titleVariant}>
+          {recipeName === "" ? "New Recipe" : recipeName}
         </Typography>
         <Container className={classes.dataContainer}>
           <Container>
@@ -143,6 +170,15 @@ const RecipeInput = () => {
                 name="recipe-name"
                 onChange={(evt: any) => {
                   setRecipeName(evt.target.value);
+                  if (recipeName.length > 20) {
+                    setTitleVariant("h3");
+                  }
+                  if (recipeName.length > 40) {
+                    setTitleVariant("h5");
+                  }
+                  if (recipeName.length < 20) {
+                    setTitleVariant("h1");
+                  }
                 }}
                 value={recipeName}
                 required
@@ -163,8 +199,29 @@ const RecipeInput = () => {
                 value={recipeDescription}
                 size="medium"
                 multiline={false}
-                autoFocus
               />
+            </Container>
+            <Typography variant="h5" className={classes.imageHeader}>
+              Add some pictures!
+            </Typography>
+            <Container className={classes.imagesSection}>
+              <input
+                className={classes.imageInput}
+                id="image-button"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+                multiple
+              />
+              <label htmlFor="image-button">
+                <IconButton className={classes.imageIcon} component="span">
+                  <CameraEnhanceIcon />
+                </IconButton>
+              </label>
+              {images.length > 0 &&
+                images.map((i) => (
+                  <img className={classes.images} src={i} alt="" />
+                ))}
             </Container>
             <AddIngredientSection
               ingreds={ingreds}

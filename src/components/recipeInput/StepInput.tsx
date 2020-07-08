@@ -19,6 +19,7 @@ const useStyles = makeStyles({
     width: "86%",
     resize: "vertical",
     marginRight: "1rem",
+    marginBottom: "1rem",
   },
   addButton: {},
 });

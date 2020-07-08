@@ -19,16 +19,19 @@ const useStyles = makeStyles({
     width: "10%",
     resize: "vertical",
     marginRight: "1rem",
+    marginBottom: "1rem",
   },
   editAmtInput: {
     width: "10.5%",
     resize: "vertical",
     marginRight: "1rem",
+    marginBottom: "1rem",
   },
   addIngInput: {
     width: "60%",
     resize: "vertical",
     marginRight: "1rem",
+    marginBottom: "1rem",
   },
   editIngInput: {
     width: "63%",
