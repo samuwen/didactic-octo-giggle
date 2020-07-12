@@ -1,0 +1,17 @@
+version: "3.6"
+
+services:
+  db:
+    image: postgres:13
+    volumes: ["dbdata:/var/lib/postgresql/data"]
+    environment: ["POSTGRES_PASSWORD=abc123"]
+    ports: ["5432:5432"]
+  api:
+    image: openjdk:13-alpine
+  # ui:
+  #   image: node:12-alpine
+  #   volume: ["nodemodules:/var/app_modules"]
+
+volumes:
+  dbdata:
+  # nodemodules:
